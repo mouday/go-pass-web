@@ -34,8 +34,8 @@ export const MENU_ITEMS = [
   // },
 
   {
-    label: "任务列表",
-    key: "/task-list",
+    label: "题目列表",
+    key: "/question-list",
     icon: <PieChartOutlined />,
     // children: [
     //   {
@@ -48,10 +48,10 @@ export const MENU_ITEMS = [
     //   },
     // ],
   },
-  {
-    label: "任务日志",
-    key: "/task-log-list",
-    icon: <DesktopOutlined />,
+  // {
+  //   label: "任务日志",
+  //   key: "/task-log-list",
+  //   icon: <DesktopOutlined />,
     // children: [
     //   {
     //     label: "Table",
@@ -62,7 +62,7 @@ export const MENU_ITEMS = [
     //     key: "/form",
     //   },
     // ],
-  },
+  // },
   
   // {
   //   label: "数据",

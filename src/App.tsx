@@ -5,8 +5,10 @@ import RouterBefore from "./router/RouterBefore";
 
 function App() {
   const route = useRoutes(routes);
-
-  return <RouterBefore>{route}</RouterBefore>;
+  console.log(route);
+  
+  // return <RouterBefore>{route}</RouterBefore>;
+  return <>{route}</>;
 }
 
 export default App;

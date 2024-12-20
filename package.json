@@ -26,7 +26,8 @@
     "react-router-dom": "^6.18.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-    "reset-css": "^5.0.2"
+    "reset-css": "^5.0.2",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",

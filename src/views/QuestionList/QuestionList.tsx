@@ -5,7 +5,12 @@ import { Space, Switch, Table, Tag } from "antd";
 import TaskEditForm from "./TaskEditForm";
 import TableColumns from "./TableColumns";
 import { Button, Modal, message, Checkbox, Form, Input } from "antd";
-
+import {
+  useSearchParams,
+  useParams,
+  useHref,
+  useResolvedPath,
+} from 'react-router-dom'
 import api from "@/request/api";
 
 const App: React.FC = () => {
@@ -52,8 +57,8 @@ const App: React.FC = () => {
   };
 
   const handleDeleteRow = async (record) => {
-    const res = await api.removeTask({
-      taskId: record.taskId,
+    const res = await api.removeQuestion({
+      id: record.id,
     });
 
     if (res.ok) {
@@ -87,12 +92,16 @@ const App: React.FC = () => {
 
   const handleShowLog = (record) => {
     // navigate(`/task-log/${record.taskLogId}`);
-    window.open(`/#/task-log-list?taskId=${record.taskId}`, "_blank");
+    // console.log(useResolvedPath({
+    //   to: `./question-detail?id=${record.id}`
+    // }));
+    
+    window.open(`/#/question-detail/${record.id}`, "_blank");
   };
 
   const getData = async (value) => {
     setLoading(true);
-    const res = await api.getTaskList({
+    const res = await api.getQuestionList({
       page: value.current,
       size: value.pageSize,
     });
@@ -157,12 +166,12 @@ const App: React.FC = () => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        添加任务
+        添加题目
       </Button>
 
       <Table className="mt-4"
         bordered
-        rowKey="taskId"
+        rowKey="id"
         loading={loading}
         columns={TableColumns}
         dataSource={list}
@@ -172,7 +181,7 @@ const App: React.FC = () => {
 
       {/* 编辑框 */}
       <Modal
-        title={<div className="text-center">编辑任务</div>}
+        title={<div className="text-center">编辑题目</div>}
         footer={null}
         open={isModalOpen}
         destroyOnClose={true}

@@ -7,10 +7,17 @@ import {
   ContainerOutlined,
   PlayCircleOutlined,
 } from '@ant-design/icons'
+import {
+  useSearchParams,
+  useParams,
+  useHref,
+  useResolvedPath,
+  resolvePath
+} from 'react-router-dom'
 
 export default [
   {
-    title: '任务描述',
+    title: '题目描述',
     dataIndex: 'title',
     key: 'title',
     align: 'center',
@@ -28,50 +35,60 @@ export default [
   //     return <div className="text-left">{record.runnerName}</div>
   //   },
   // },
-
   {
-    title: '调用链接',
+    title: '正确答案',
     dataIndex: 'url',
     key: 'url',
     align: 'center',
+    width: 80,
     render: (_, record) => {
-      return <div className="text-left">{record.url}</div>
+      return <div className="text-left">{record.optionOkCount}</div>
     },
   },
   {
-    title: 'Cron',
+    title: '正确数',
+    dataIndex: 'url',
+    key: 'url',
     align: 'center',
-    dataIndex: 'cron',
-    key: 'cron',
-    width: 200,
+    width: 80,
     render: (_, record) => {
-      return <div className="text-left">{record.cron}</div>
+      return <div className="text-left">{record.answerCount}</div>
     },
   },
+  // {
+  //   title: 'Cron',
+  //   align: 'center',
+  //   dataIndex: 'cron',
+  //   key: 'cron',
+  //   width: 200,
+  //   render: (_, record) => {
+  //     return <div className="text-left">{record.cron}</div>
+  //   },
+  // },
+  // {
+  //   title: '状态',
+  //   align: 'center',
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 100,
+  //   render: (_, record) => {
+  //     return (
+  //       <Switch
+  //         defaultChecked={record.status}
+  //         onChange={(val) => {
+  //           record.handleStatusChange(record, val)
+  //         }}
+  //       ></Switch>
+  //     )
+  //   },
+  // },
   {
-    title: '运行状态',
-    align: 'center',
-    dataIndex: 'status',
-    key: 'status',
-    width: 100,
-    render: (_, record) => {
-      return (
-        <Switch
-          defaultChecked={record.status}
-          onChange={(val) => {
-            record.handleStatusChange(record, val)
-          }}
-        ></Switch>
-      )
-    },
-  },
-  {
-    title: '日志',
+    title: '预览',
     key: 'action',
     align: 'center',
     width: 80,
-    render: (_, record) => (
-      <Button
+    render: (_, record) => {
+      return <Button
         type="link"
         onClick={() => {
           record.handleShowLog(record)
@@ -79,7 +96,7 @@ export default [
       >
         <ContainerOutlined />
       </Button>
-    ),
+    },
   },
 
   {
@@ -90,18 +107,6 @@ export default [
     width: 160,
     render: (_, record) => (
       <Space size="middle">
-        <Popconfirm
-          title="确认运行"
-          description=""
-          onConfirm={() => {
-            record.handleRunRow(record)
-          }}
-        >
-          <Button type="link">
-            <PlayCircleOutlined className="cursor-pointer" />
-          </Button>
-        </Popconfirm>
-
         <Button
           type="link"
           onClick={() => {

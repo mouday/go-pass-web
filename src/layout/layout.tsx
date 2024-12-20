@@ -38,7 +38,8 @@ const AppLayout: React.FC = () => {
   const { token } = theme.useToken()
   const currentRoute = useLocation()
   const navigateTo = useNavigate()
-
+  console.log('currentRoute', currentRoute.key);
+  
   const [items, setItems] = useState([])
 
   const dropdownItems = [
@@ -67,7 +68,7 @@ const AppLayout: React.FC = () => {
   }, [currentRoute])
 
   return (
-    <Layout className="layout__wrap">
+    <Layout className="layout__wrap" key={currentRoute.key}>
       {/* 左边导航栏 */}
       <Sider
         collapsible
@@ -79,7 +80,7 @@ const AppLayout: React.FC = () => {
             <AppstoreOutlined />
           </div>
         ) : (
-          <div className="layout__logo">Cron Admin</div>
+          <div className="layout__logo">Go Pass</div>
         )}
         <LayoutMenu></LayoutMenu>
       </Sider>
@@ -116,7 +117,7 @@ const AppLayout: React.FC = () => {
         </Content>
 
         {/* <Footer style={{ textAlign: "center" }}>
-        Cron Admin ©2024 Created by Mouday
+        Go Pass ©2024 Created by Mouday
         </Footer> */}
       </Layout>
     </Layout>

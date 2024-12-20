@@ -11,7 +11,9 @@ import Login from "../views/Login/Login";
 
 const Home = React.lazy(() => import("../views/Home/Home"));
 const About = React.lazy(() => import("../views/About/About"));
-const TaskList = React.lazy(() => import("../views/TaskList/TaskList"));
+const QuestionList = React.lazy(() => import("../views/QuestionList/QuestionList"));
+const QuestionDetail = React.lazy(() => import("../views/QuestionDetail/QuestionDetail"));
+
 const TaskLogList = React.lazy(() => import("../views/TaskLogList/TaskLogList"));
 const Form = React.lazy(() => import("../views/Form/Form"));
 const Log = React.lazy(() => import("../views/Log/Log"));
@@ -26,7 +28,7 @@ export const routes: Route[] = [
   {
     path: "/",
     // 重定向
-    element: <Navigate to="/task-list" />,
+    element: <Navigate to="/question-list" />,
   },
   {
     path: "/",
@@ -43,9 +45,14 @@ export const routes: Route[] = [
       //   element: withLoadingComponent(<About />),
       // },
       {
-        path: "/task-list",
-        element: withLoadingComponent(<TaskList />),
+        path: "/question-list",
+        element: withLoadingComponent(<QuestionList />),
       },
+      {
+        path: "/question-detail/:id",
+        element: withLoadingComponent(<QuestionDetail />),
+      },
+      
       {
         path: "/task-log-list",
         element: withLoadingComponent(<TaskLogList />),
