@@ -183,8 +183,11 @@ const App: React.FC = () => {
       <Modal
         title={<div className="text-center">编辑题目</div>}
         footer={null}
+        style={{ top: 20 }}
+        width={800}
         open={isModalOpen}
         destroyOnClose={true}
+        onCancel={handleTaskEditFormCancel}
       >
         <TaskEditForm
           currentRow={currentRow}

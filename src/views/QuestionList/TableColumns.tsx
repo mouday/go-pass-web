@@ -36,23 +36,23 @@ export default [
   //   },
   // },
   {
-    title: '正确答案',
+    title: '类型',
     dataIndex: 'url',
     key: 'url',
     align: 'center',
     width: 80,
     render: (_, record) => {
-      return <div className="text-left">{record.optionOkCount}</div>
+      return <div className="text-left">{record.optionOkCount > 1 ? '多选': '单选'}</div>
     },
   },
   {
-    title: '正确数',
-    dataIndex: 'url',
-    key: 'url',
+    title: '得分',
+    dataIndex: 'score',
+    key: 'score',
     align: 'center',
     width: 80,
     render: (_, record) => {
-      return <div className="text-left">{record.answerCount}</div>
+      return <div className="text-left">{record.score}</div>
     },
   },
   // {
@@ -83,7 +83,7 @@ export default [
   //   },
   // },
   {
-    title: '预览',
+    title: '刷题',
     key: 'action',
     align: 'center',
     width: 80,

@@ -113,6 +113,8 @@ export default function QuestionDetail({ currentRow, onSuccess, onCancel }) {
 
   const handleSingleOptionChange = (e) => {
     setSingleValue(e.target.value)
+
+    handleSubmit({ value: e.target.value })
   }
 
   const updateQuestionAnswerResult = async (value) => {
@@ -128,7 +130,7 @@ export default function QuestionDetail({ currentRow, onSuccess, onCancel }) {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = ({ value }) => {
     let success = null
     if (data.optionOkCount > 1) {
       if (
@@ -144,26 +146,27 @@ export default function QuestionDetail({ currentRow, onSuccess, onCancel }) {
           return item.status != item.checked
         }).length == 0
     } else {
+      value = value || singleValue
       console.log(singleValue)
 
-      if (!singleValue) {
+      if (!value) {
         return
       }
 
       success =
         data.options.filter((item) => {
-          return item.status && item.order === singleValue
+          return item.status && item.order === value
         }).length == 1
     }
 
     if (success) {
       setResult(true)
       setData((pre) => {
-        return { ...pre, answerCount: pre.answerCount + 1 }
+        return { ...pre, score: pre.score + 1 }
       })
     } else {
       setData((pre) => {
-        return { ...pre, answerCount: pre.answerCount - 1 }
+        return { ...pre, score: pre.score - 3 }
       })
       setResult(false)
     }
@@ -185,103 +188,107 @@ export default function QuestionDetail({ currentRow, onSuccess, onCancel }) {
   }, [])
 
   return (
-    <div className="QuestionDetail">
-      <div className="QuestionDetail__title">{data.title}</div>
-      <div className="QuestionDetail__options">
-        {data.optionOkCount > 1 ? (
-          data.options.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="QuestionDetail__option"
-              >
-                <Checkbox
-                  checked={item.checked}
-                  onChange={(e) => {
-                    handleOptionStatusChange(e, index)
-                  }}
-                >
-                  <span className="mr-2">{item.order}、</span>
-                  <span>{item.label}</span>
-                </Checkbox>
-              </div>
-            )
-          })
-        ) : (
-          <Radio.Group
-            onChange={handleSingleOptionChange}
-            value={singleValue}
-          >
-            {data.options.map((item, index) => {
+    <>
+      <div className="QuestionDetail">
+        <div className="QuestionDetail__title">
+          <span>{data.id}</span>
+          <span>、</span>
+          <span>{data.title}</span>
+        </div>
+        <div className="QuestionDetail__options">
+          {data.optionOkCount > 1 ? (
+            data.options.map((item, index) => {
               return (
                 <div
                   key={index}
                   className="QuestionDetail__option"
                 >
-                  <Radio value={item.order}>
+                  <Checkbox
+                    checked={item.checked}
+                    onChange={(e) => {
+                      handleOptionStatusChange(e, index)
+                    }}
+                  >
                     <span className="mr-2">{item.order}、</span>
                     <span>{item.label}</span>
-                  </Radio>
+                  </Checkbox>
                 </div>
               )
-            })}
-          </Radio.Group>
+            })
+          ) : (
+            <Radio.Group
+              onChange={handleSingleOptionChange}
+              value={singleValue}
+            >
+              {data.options.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="QuestionDetail__option"
+                  >
+                    <Radio value={item.order}>
+                      <span className="mr-2">{item.order}、</span>
+                      <span>{item.label}</span>
+                    </Radio>
+                  </div>
+                )
+              })}
+            </Radio.Group>
+          )}
+        </div>
+        <div className="QuestionDetail__button">
+          <Button
+            onClick={handleSubmit}
+            type="primary"
+          >
+            提交
+          </Button>
+          <Button
+            onClick={handleNextQuestion}
+            className="ml-8"
+          >
+            下一题
+          </Button>
+        </div>
+
+        <div className="QuestionDetail__result">
+          <div className="QuestionDetail__result__success">
+            {result === true ? (
+              <Alert
+                message="正确"
+                type="success"
+                showIcon
+              />
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="QuestionDetail__result__error">
+            {result === false ? (
+              <Alert
+                message="错误"
+                type="error"
+                showIcon
+              />
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
+
+        {result !== null ? (
+          <div className="QuestionDetail__successResult">
+            <div>正确答案：{successResult.join('、')}</div>
+            <div>得分：{data.score}</div>
+          </div>
+        ) : (
+          <></>
         )}
-      </div>
-      <div className="QuestionDetail__button">
-        <Button
-          onClick={handleSubmit}
-          type="primary"
-        >
-          提交
-        </Button>
-        <Button
-          onClick={handleNextQuestion}
-          className="ml-8"
-        >
-          下一题
-        </Button>
-      </div>
 
-      <div className="QuestionDetail__result">
-        <div className="QuestionDetail__result__success">
-          {result === true ? (
-            <Alert
-              message="正确"
-              type="success"
-              showIcon
-            />
-          ) : (
-            ''
-          )}
-        </div>
-        <div className="QuestionDetail__result__error">
-          {result === false ? (
-            <Alert
-              message="错误"
-              type="error"
-              showIcon
-            />
-          ) : (
-            ''
-          )}
+        <div>
+          题目：{detail.errerCount + detail.successCount} / {detail.total}
         </div>
       </div>
-
-      {result !== null ? (
-        <div className="QuestionDetail__successResult">
-          <div>正确答案：{successResult.join('、')}</div>
-          <div>正确次数：{data.answerCount}</div>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      <div>
-        题目总数：{detail.total} / 已作答：
-        {detail.errerCount + detail.successCount} / 正确数：
-        {detail.successCount}
-      </div>
-    </div>
+    </>
   )
 }
